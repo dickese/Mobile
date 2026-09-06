@@ -1,0 +1,12 @@
+{
+  "name": "tuan02-async-typescript",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start01": "npx tsc ex01.ts --outDir dist --lib ES2020,DOM && node dist/ex01.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

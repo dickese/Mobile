@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StackTabApp } from './src/ex4/StackTabApp';
+import { DrawerApp } from './src/ex5/DrawerApp';
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <StackTabApp />
+        <DrawerApp />
         <StatusBar style="auto" />
       </View>
     </SafeAreaProvider>

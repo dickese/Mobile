@@ -27,9 +27,8 @@ export interface BookFilter {
 
 // Lọc KẾT HỢP: từ khoá (tên/tác giả) + danh mục + khoảng giá
 export function filterBooks(books: Book[], f: BookFilter): Book[] {
-  // TODO BT7.7c: lọc theo từ khoá — normalize(b.title / b.author).includes(normalize(f.keyword)); từ khoá rỗng = giữ tất cả
-  // TODO BT7.8a: thêm điều kiện danh mục — f.categoryId === null || b.categoryId === f.categoryId
-  // TODO BT7.C2: thêm điều kiện inRange(b.price, f.priceRange)
-  void inRange;
-  return books;
+  const k = normalize(f.keyword);
+  return books.filter((b) =>
+    (k === "" || normalize(b.title).includes(k) || normalize(b.author).includes(k))
+  );
 }

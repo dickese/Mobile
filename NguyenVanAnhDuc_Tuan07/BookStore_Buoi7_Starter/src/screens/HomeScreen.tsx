@@ -19,7 +19,7 @@ import { colors } from "../theme";
 import { useCart } from "../store/hooks";
 import { Book, Category } from "../types";
 
-export function HomeScreen({ navigation }: TabScreenProps<"Home">) {
+export function HomeScreen({ navigation, route }: TabScreenProps<"Home">) {
   const { totalQuantity } = useCart();
 
   const [books, setBooks] = useState<Book[]>([]);
@@ -64,7 +64,13 @@ export function HomeScreen({ navigation }: TabScreenProps<"Home">) {
     setPriceRange(null);
   };
 
-  // TODO BT7.8b: nhận categoryId từ route.params (Tab Danh mục gửi sang) → setCategoryId(id) rồi navigation.setParams({ categoryId: undefined })
+  useEffect(() => {
+    const id = route.params?.categoryId;
+    if (id !== undefined) {
+      setCategoryId(id);
+      navigation.setParams({ categoryId: undefined });
+    }
+  }, [route.params?.categoryId, navigation]);
 
   return (
     <View style={styles.container}>

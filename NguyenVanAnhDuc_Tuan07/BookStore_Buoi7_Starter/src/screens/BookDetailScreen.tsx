@@ -4,7 +4,7 @@ import { LoadingView } from "../components/LoadingView";
 import { ErrorView } from "../components/ErrorView";
 import { getBookById } from "../services/bookService";
 import { getErrorMessage } from "../api/client";
-import { useCart } from "../store/hooks";
+import { useCart, useWishlist } from "../store/hooks";
 import { RootScreenProps } from "../navigation/types";
 import { Book } from "../types";
 import { colors, formatPrice, radius } from "../theme";
@@ -13,6 +13,7 @@ import { colors, formatPrice, radius } from "../theme";
 export function BookDetailScreen({ route }: RootScreenProps<"BookDetail">) {
   const { bookId } = route.params;
   const { add } = useCart();
+  const { isFavorite, toggle } = useWishlist();
 
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,8 @@ export function BookDetailScreen({ route }: RootScreenProps<"BookDetail">) {
   if (loading) return <LoadingView label="Đang tải chi tiết sách…" />;
   if (error || !book) return <ErrorView message={error ?? "Không tìm thấy sách."} onRetry={load} />;
 
+  const favorite = isFavorite(book.id);
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={[styles.cover, { backgroundColor: book.color }]}>
@@ -48,21 +51,33 @@ export function BookDetailScreen({ route }: RootScreenProps<"BookDetail">) {
       <Text style={styles.price}>{formatPrice(book.price)}</Text>
       <Text style={styles.stock}>Còn {book.stock} cuốn</Text>
       <Text style={styles.desc}>{book.description}</Text>
-      <Pressable
-        style={styles.btn}
-        onPress={() =>
-          add({
-            bookId: book.id,
-            title: book.title,
-            price: book.price,
-            emoji: book.emoji,
-            color: book.color,
-            stock: book.stock,
-          })
-        }
-      >
-        <Text style={styles.btnText}>Thêm vào giỏ</Text>
-      </Pressable>
+
+      <View style={styles.actionRow}>
+        <Pressable
+          style={[styles.wishlistBtn, favorite && styles.wishlistBtnActive]}
+          onPress={() => toggle(book.id)}
+        >
+          <Text style={[styles.wishlistText, favorite && styles.wishlistTextActive]}>
+            {favorite ? "♥ Đã yêu thích" : "♡ Yêu thích"}
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.btn}
+          onPress={() =>
+            add({
+              bookId: book.id,
+              title: book.title,
+              price: book.price,
+              emoji: book.emoji,
+              color: book.color,
+              stock: book.stock,
+            })
+          }
+        >
+          <Text style={styles.btnText}>Thêm vào giỏ</Text>
+        </Pressable>
+      </View>
     </ScrollView>
   );
 }
@@ -77,6 +92,26 @@ const styles = StyleSheet.create({
   price: { fontSize: 20, fontWeight: "800", color: colors.indigo },
   stock: { color: colors.muted },
   desc: { color: colors.text, lineHeight: 22, marginTop: 4 },
-  btn: { backgroundColor: colors.indigo, padding: 14, borderRadius: radius.md, alignItems: "center", marginTop: 12 },
+  actionRow: { marginTop: 12, gap: 10 },
+  wishlistBtn: {
+    paddingVertical: 12,
+    borderRadius: radius.md,
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderColor: colors.heart,
+    backgroundColor: "transparent",
+  },
+  wishlistBtnActive: {
+    backgroundColor: "#FEE2E2",
+  },
+  wishlistText: {
+    color: colors.heart,
+    fontWeight: "700",
+    fontSize: 15,
+  },
+  wishlistTextActive: {
+    color: colors.heart,
+  },
+  btn: { backgroundColor: colors.indigo, padding: 14, borderRadius: radius.md, alignItems: "center" },
   btnText: { color: "#fff", fontWeight: "800", fontSize: 16 },
 });

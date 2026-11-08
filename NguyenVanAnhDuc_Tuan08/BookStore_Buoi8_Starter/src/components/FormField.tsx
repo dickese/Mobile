@@ -5,9 +5,28 @@ import { colors, radius } from "../theme";
 interface Props extends TextInputProps {
   label: string;
   error?: string | null; // có lỗi → viền đỏ + dòng báo lỗi NGAY DƯỚI ô nhập
+  rightAccessory?: React.ReactNode;
 }
 
-export function FormField({ label, error, style, ...rest }: Props) {
+export function FormField({ label, error, rightAccessory, style, ...rest }: Props) {
+  if (rightAccessory) {
+    return (
+      <View style={styles.wrap}>
+        <Text style={styles.label}>{label}</Text>
+        <View style={[styles.inputRow, error ? styles.inputError : null]}>
+          <TextInput
+            style={[styles.inputInner, style]}
+            placeholderTextColor={colors.muted}
+            autoCapitalize="none"
+            {...rest}
+          />
+          {rightAccessory}
+        </View>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
+      </View>
+    );
+  }
+
   return (
     <View style={styles.wrap}>
       <Text style={styles.label}>{label}</Text>
@@ -26,6 +45,20 @@ const styles = StyleSheet.create({
   wrap: { gap: 4 },
   label: { fontWeight: "700", color: colors.text },
   input: { backgroundColor: "#fff", borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, paddingHorizontal: 12, paddingVertical: 10, color: colors.text },
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    paddingHorizontal: 12,
+  },
+  inputInner: {
+    flex: 1,
+    paddingVertical: 10,
+    color: colors.text,
+  },
   inputError: { borderColor: colors.danger },
   error: { color: colors.danger, fontSize: 12 },
 });

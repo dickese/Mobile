@@ -13,6 +13,7 @@ export function LoginScreen({ navigation, route }: RootScreenProps<"Login">) {
   const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string | null; password?: string | null }>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -57,7 +58,16 @@ export function LoginScreen({ navigation, route }: RootScreenProps<"Login">) {
           value={password}
           onChangeText={setPassword}
           error={errors.password}
-          secureTextEntry
+          secureTextEntry={!showPassword}
+          rightAccessory={
+            <Pressable
+              onPress={() => setShowPassword((v) => !v)}
+              hitSlop={8}
+              accessibilityLabel={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+            >
+              <Text style={{ fontSize: 18 }}>{showPassword ? "👁️" : "🙈"}</Text>
+            </Pressable>
+          }
         />
 
         {submitError ? <Text style={styles.submitError}>{submitError}</Text> : null}

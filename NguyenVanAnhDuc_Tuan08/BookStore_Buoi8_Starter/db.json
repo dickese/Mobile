@@ -331,6 +331,15 @@
       "rating": 4,
       "comment": "Ví dụ rõ ràng, dễ theo dõi.",
       "createdAt": "2026-10-08T13:00:00.000Z"
+    },
+    {
+      "bookId": 1,
+      "userId": 1,
+      "userName": "Học viên Demo",
+      "rating": 4,
+      "comment": "Rất hay",
+      "createdAt": "2026-11-08T06:43:26.383Z",
+      "id": 9
     }
   ],
   "notifications": [

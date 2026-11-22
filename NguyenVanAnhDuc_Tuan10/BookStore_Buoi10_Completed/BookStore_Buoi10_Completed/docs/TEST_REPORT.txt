@@ -1,0 +1,11 @@
+✓ Toàn bộ các file .ts/.tsx parse không lỗi cú pháp
+✓ Import nội bộ trỏ tới file thật
+✓ Không còn TODO BT10 trong source
+✓ Format VND và tìm kiếm tiếng Việt không dấu
+✓ Dữ liệu 10 cuốn và db.json nhất quán
+✓ Giỏ hàng: thêm, tăng, giảm, xóa, selector count/total
+✓ Yêu thích: thêm, bỏ và selector theo id
+✓ Bonus: fetchBooks.pending / fulfilled / rejected cập nhật state
+✓ UI và điều hướng có đầy đủ các thành phần trong đề
+
+9 nhóm kiểm tra tĩnh / logic đạt. Chưa xác minh build và render trong Expo.

@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "BookStore Buổi 10",
+    "slug": "bookstore-buoi10",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "web": { "bundler": "metro" },
+    "ios": { "supportsTablet": true }
+  }
+}
